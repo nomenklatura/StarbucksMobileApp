@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:converter="clr-namespace:StarbucksMobileApp.Helpers"
+             x:Class="StarbucksMobileApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <converter:ConverterModel x:Key="converter" />
+            
+            <Color x:Key="Green">#006341</Color>
+            <Color x:Key="Gray">#1e1e1e</Color>
+            <Color x:Key="Black">#000</Color>
+            <Color x:Key="White">#fff</Color>
+            <Color x:Key="Silver">#ebebeb</Color>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

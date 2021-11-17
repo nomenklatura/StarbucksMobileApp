@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StarbucksMobileApp.Views.PgSplash"
+             xmlns:imgs="clr-namespace:StarbucksMobileApp.Resources.Images"
+             BackgroundColor="{StaticResource White}">
+    
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand"
+              Padding="0">
+
+            <Image x:Name="splashImage"
+                   Source="{imgs:ImageResource MyaKartSerez.Resources.Images.serez_acilis.jpg}"
+                   VerticalOptions="FillAndExpand"
+                   HorizontalOptions="FillAndExpand"
+                   Aspect="Fill" />
+
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>
