@@ -19,7 +19,7 @@ namespace StarbucksMobileApp.Api.ClientManagers
         {
             try
             {
-                if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(phone))
+                if (String.IsNullOrEmpty(email) && String.IsNullOrEmpty(phone))
                 {
                     return new MemberResponseModel
                     {
@@ -47,19 +47,11 @@ namespace StarbucksMobileApp.Api.ClientManagers
                 else if (!String.IsNullOrEmpty(phone))
                     member = DataContext.Members.Where(x => x.Phone == phone && x.Password == password).FirstOrDefault();
 
-                //MemberResponseModel result = _autoMapper.Map<MemberResponseModel>(member);
+                
                 if (member != null)
                 {
-                    return new MemberResponseModel
-                    {
-                        Balance = member.Balance,
-                        Description = member.Description,
-                        Email = member.Email,
-                        IsPerson = member.IsPerson,
-                        Name = member.Name,
-                        Phone = member.Phone,
-                        Star = member.Star
-                    };
+                    MemberResponseModel result = AutoMapperBootstrapper.mapper.Map<MemberResponseModel>(member);
+                    return result;
                 }
                 else
                 {
@@ -71,7 +63,6 @@ namespace StarbucksMobileApp.Api.ClientManagers
                         }
                     };
                 }
-
             }
             catch (Exception err)
             {
@@ -163,6 +154,18 @@ namespace StarbucksMobileApp.Api.ClientManagers
                     }
                 };
             }
+        }
+    }
+
+    public class NotificationClientManager : BaseClientManager
+    {
+        public NotificationClientManager(string url) : base(url)
+        {
+        }
+
+        public List<Notification> GetList()
+        {
+            return DataContext.Notifications;
         }
     }
 }

@@ -1,24 +1,149 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StarbucksMobileApp.MainPage">
+             x:Class="StarbucksMobileApp.MainPage"
+             xmlns:customCtrl ="clr-namespace:StarbucksMobileApp.Helpers.CustomControls"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:viewModels="clr-namespace:StarbucksMobileApp.ViewModels"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource White}">
 
-    <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-        </Frame>
-        <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10"/>
-        <Label Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" FontSize="16" Padding="30,0,30,0"/>
-        <Label FontSize="16" Padding="30,24,30,0">
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Learn more at "/>
-                        <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
-    </StackLayout>
+    <ContentPage.BindingContext>
+        <viewModels:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid x:Name="gridMain"
+          VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+          Padding="0" Margin="0">
+
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                     Padding="{OnPlatform Android='0,100,0,0', iOS='0'}">
+
+            <customCtrl:CustomCollectionView x:Name="notificationView"
+                                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                             ItemsSource="{Binding Notifications}"
+                                             CustomHeader="customHeader"
+                                             StickyHeader="stickHeader">
+
+                <customCtrl:CustomCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                              RowDefinitions="200, auto, auto">
+
+                            <Image x:Name="notificationHeaderView"
+                                   Source="{Binding ImageUrl}"
+                                   Grid.Row="0"
+                                   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                                   Aspect="AspectFill" />
+
+                            <StackLayout x:Name="notificationBodyView" 
+                                         Padding="15">
+
+                                <Label x:Name="lblTitle"
+                                       Text="{Binding Title}"
+                                       FontAttributes="Bold" FontFamily="Neutra2Display-Bold" FontSize="18"
+                                       TextColor="{StaticResource Black}" />
+
+                                <Label x:Name="lblDescription"
+                                       Text="{Binding Description}"
+                                       FontFamily="Neutra2Display" FontSize="16"
+                                       TextColor="{StaticResource Black}" />
+
+                            </StackLayout>
+
+                            <StackLayout x:Name="notificationBodyFooter" 
+                                         IsVisible="{Binding FooterShow}"
+                                         BindableLayout.ItemsSource="{Binding FooterButtonGroup}"
+                                         Orientation="Horizontal"
+                                         Padding="15">
+
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Text="{Binding .}"
+                                                FontAttributes="Bold" FontFamily="Neutra2Display-Bold" FontSize="14"
+                                                TextColor="{StaticResource White}" BackgroundColor="{StaticResource Green}"
+                                                Padding="10" CornerRadius="8" />
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+
+                            </StackLayout>
+
+                        </Grid>
+                    </DataTemplate>
+                </customCtrl:CustomCollectionView.ItemTemplate>
+                
+            </customCtrl:CustomCollectionView>
+                                             
+            
+        </StackLayout>
+
+        <pancakeView:PancakeView x:Name="customHeader"
+                                 VerticalOptions="Start" HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="{StaticResource Silver}"
+                                 Padding="{OnPlatform iOS='16,45,16,16', Android='16'}">
+
+            <pancakeView:PancakeView.Shadow>
+                <pancakeView:DropShadow Color="#cc1010" Offset="-20,-30" />
+            </pancakeView:PancakeView.Shadow>
+
+            <StackLayout>
+                <StackLayout x:Name="stickHeader">
+                    <Label x:Name="lblWelcome" Text="{Binding Welcome}"
+                       FontAttributes="Bold" FontFamily="Neutra2Display-Bold" FontSize="12"
+                       TextColor="{StaticResource Black}"/>
+                </StackLayout>
+
+                <Grid VerticalOptions="FillAndExpand"
+                    ColumnDefinitions="*, auto">
+
+                    <StackLayout x:Name="slLoginView"
+                                 Grid.Column="0"
+                                 Orientation="Horizontal">
+
+                        <Button x:Name="btnLogin"
+                                Text="&#xf007; Giris Yap"
+                                FontFamily="Fa" FontSize="14"
+                                Padding="10,0" Margin="0" CornerRadius="0"
+                                BackgroundColor="{StaticResource White}" TextColor="{StaticResource Gray}">
+
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsLogin}" Value="True">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                            
+                        </Button>
+
+                        <Button x:Name="btnMessageBox"
+                                Text="&#xf658; GGelen Kutusu"
+                                FontFamily="Fa" FontSize="14"
+                                Padding="10,0" Margin="0" CornerRadius="0"
+                                BackgroundColor="{StaticResource White}" TextColor="{StaticResource Gray}">
+
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsLogin}" Value="True">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Button.Triggers>
+
+                        </Button>
+
+                    </StackLayout>
+
+                    <Button x:Name="btnSettings"
+                            Text="&#xf013;"
+                            Grid.Column="1"
+                            FontFamily="Fa" FontSize="14"
+                            Padding="10,0" Margin="0" CornerRadius="0"
+                            WidthRequest="40"
+                            BackgroundColor="{StaticResource White}" TextColor="{StaticResource Gray}"
+                            HeightRequest="25" />
+
+                </Grid>
+            </StackLayout>
+
+        </pancakeView:PancakeView>
+        
+    </Grid>
 
 </ContentPage>
